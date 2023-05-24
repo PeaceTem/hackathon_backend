@@ -9,7 +9,6 @@
       overflow-x: scroll;
     }
     
-    {% comment %} style the scroll {% endcomment %}
 
     th, td {
       border: 1px solid black;
@@ -64,11 +63,19 @@
         <tr>
           <td>{{t}}</td>
         {% for day in days %}
+        <td> 
+        
         {% for cell in cells %}
-            {% if cell.row.day == day and cell.column.time_slot.start_hour <= column <= cell.column.time_slot.end_hour %}
-              <td>{{cell}}</td>
+              {% if cell.column.time_slot.start_hour <= t and t < cell.column.time_slot.end_hour %}
+            {% if cell.row.day == day %}
+            {% if cell.value == 1 %}
+              {{cell}}
+            {% endif %}
+            {% endif %}
+
             {% endif %}
         {% endfor %}
+      </td>
         {% endfor %}
         </tr>
     {% endfor %}

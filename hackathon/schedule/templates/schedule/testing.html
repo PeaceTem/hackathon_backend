@@ -1,6 +1,69 @@
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: scroll;
+    }
+    
 
-<div>
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd){
+      background-color: #f2f2c3;
+    }
+  </style>
+<!-- <div>
     <button>
         <a href={% url 'testing' %}> sort testing </a>
     </button>
-</div>
+</div> -->
+
+<h3>Examination Timetable sorted by venue</h3>
+  {% for venue,activity in venues_sorted_columns %}
+    
+  <table>
+    <tr>
+      <th>{{venue}}</th>
+        {% for column in activity %}
+          <th>{{column.course_code}}</th>
+        {% endfor %}
+    </tr>
+        <tr>
+          <td>Start time</td>
+        {% for column in activity %}
+        <td> {{column.time_slot.start_hour}}
+      </td>
+        {% endfor %}
+        </tr>
+
+        <td>end time</td>
+        {% for column in activity %}
+        <td> {{column.time_slot.end_hour}}
+      </td>
+        {% endfor %}
+        </tr>
+  </table>
+
+  <br>
+  <br>
+
+  <br>
+  <br>
+
+  <br>
+  <br>
+
+    {% endfor %}
+
+
+
+
+

@@ -53,20 +53,41 @@ def testing(request):
             index = venues.index(column.venue)
             venues_sorted_columns[index].append(column)
 
-    # print(venues_sorted_columns)
+    print(venues_sorted_columns)
     # print()
 
     for column in venues_sorted_columns:
-        # print(column)
-        print(s.sort_activities(column))
+        print(column)
+        # print(s.sort_activities(column))
         print()
 
 
-    cell = Cell.objects.first()
-    cell.__mutate__()
-    # mutate(cell)
+    day = Day.objects.first()
+    cells = Cell.objects.all()
+    print(day)
+    # print(venues_sorted_columns)
 
-    return render(request, 'schedule/testing.html')
+    vet = []
+    for v in venues_sorted_columns:
+        for a in v:
+            vet.append(a)
+    print(vet)
+
+
+
+    for cell in cells:
+        if cell.row.day == day and cell.column in vet:
+            print(cell)
+            cell.value = 1
+            cell.save()
+
+    venues_sorted_columns = zip(venues, venues_sorted_columns)
+    context = {
+            "venues": venues,
+            "venues_sorted_columns": venues_sorted_columns ,   
+        }
+
+    return render(request, 'schedule/testing.html', context)
 
 
 
@@ -108,9 +129,9 @@ class TimeMatrix(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        columns = Column.objects.all()
-        rows = Row.objects.all()
-        cells = Cell.objects.all()
+        columns = Column.objects.select_related('time_slot').all()
+        rows = Row.objects.select_related('day').all()
+        cells = Cell.objects.select_related('column', 'row').all()
         days = Day.objects.all()
         time = [0,1,2,3,4,5,6,7,8,9,10]
         context['columns'] = columns

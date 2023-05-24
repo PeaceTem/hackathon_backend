@@ -7,7 +7,7 @@ from .models import *
 
 
 @receiver(post_save, sender=Row)
-def create_cells(sender, instance, created, *args, **kwargs):
+def create_cells_by_column(sender, instance, created, *args, **kwargs):
     if created:
         columns = Column.objects.all()
         for column in columns:
@@ -16,7 +16,7 @@ def create_cells(sender, instance, created, *args, **kwargs):
 
 
 @receiver(post_save, sender=Column)
-def create_cells(sender, instance, created, *args, **kwargs):
+def create_cells_by_row(sender, instance, created, *args, **kwargs):
     if created:
         rows = Row.objects.all()
         for row in rows:

@@ -61,10 +61,11 @@ def testing(request):
         print(s.sort_activities(column))
         print()
 
+    """
+    add the s.sort_activites function to the stuff
+    """
 
-    cell = Cell.objects.first()
-    cell.__mutate__()
-    # mutate(cell)
+
 
     return render(request, 'schedule/testing.html')
 
@@ -79,7 +80,6 @@ class CreateSuperUser(FormView):
     
         
     def post(self, request, *args, **kwargs):
-        # form.save()
         username = self.request.POST.get('username')
         password = self.request.POST.get('password')
         email = self.request.POST.get('email')
@@ -105,7 +105,7 @@ class CreateSuperUser(FormView):
 class TimeMatrix(TemplateView):
     template_name = 'schedule/time_matrix.html'
 
-
+    # get all the data that will be rendered to the user
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         columns = Column.objects.all()

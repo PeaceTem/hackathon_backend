@@ -108,6 +108,33 @@ class Column(models.Model):
         return f"{self.course_code}, {self.time_slot}, {self.venue}"
 
 
+    def __mutate__(self, *args, **kwargs):
+        print('The mutation works!')
+        timeslot = None
+        try:
+            if not kwargs['timeslot'] == None:
+                timeslot = kwargs['timeslot']
+        except KeyError:
+            pass
+
+        try:
+            if not kwargs['venue'] == None:
+                venue = kwargs['venue']
+        except KeyError:
+            pass
+
+        if venue:
+            self.venue = venue
+
+        if timeslot:
+            self.time_slot = timeslot
+        
+
+        return self
+
+
+
+
     def create(self, **obj):
         venues = Venue.objects.order_by("capacity")
         for v in venues:
@@ -137,7 +164,11 @@ class Row(models.Model):
         return f"{self.day}"
 
 
+    
 
+    # def __crossover__(self):
+    #     next_object = self.get_next_by_order()
+        
 
 class Cell(models.Model):
     VALUES = (zip(range(-1,2) , range(-1,2)))
@@ -145,14 +176,18 @@ class Cell(models.Model):
     column = models.ForeignKey(Column, on_delete=models.CASCADE, related_name="cell")
     row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name="cell")
     value = models.SmallIntegerField(choices=VALUES, default=0)
-    i = models.PositiveSmallIntegerField()
-    j = models.PositiveSmallIntegerField()
+    # i = models.PositiveSmallIntegerField()
+    # j = models.PositiveSmallIntegerField()
+    # def __str__(self):
+    #     return f"({self.row}, {self.column})"
+    
     def __str__(self):
-        return f"({self.row}, {self.column})"
+        return f"{self.column.course_code}, {self.column.venue}"
     
 
-
-
+    def __select__(self):
+        print('The selection works')
+        return 1
 
 
 # Create Pastor Adeshida PowerPoint Presentation

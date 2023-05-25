@@ -107,7 +107,7 @@ two columns cannot have the same course
 class Column(models.Model):
     course_code = models.OneToOneField(CourseCode, on_delete=models.CASCADE, related_name="column")
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name="columns")
-    venue = models.ForeignKey(Venue, null=True, blank=True, on_delete=models.CASCADE, related_name="column")
+    venue = models.ForeignKey(Venue, null=True, blank=True, on_delete=models.CASCADE, related_name="columns")
 
 
     def __str__(self):

@@ -1,10 +1,13 @@
+
 body{
-    background: linear-gradient(45deg, rgb(166, 140, 191),  blueviolet);
+    /* background: linear-gradient(45deg, rgb(166, 140, 191),  blueviolet); */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     flex-direction: row;
+    background-color: #b5c6ee;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .form-box{
@@ -41,7 +44,7 @@ h1{
 
 
 input[type="submit"]{
-    background: blueviolet;
+    background: #182e62;
     padding: 7px;
     font-size: 25px;
     border-radius: 4px;
@@ -54,7 +57,7 @@ input[type="submit"]{
 
 input[type="submit"]:hover{
     cursor: pointer;
-    color: blueviolet;
+    color: #182e62;
     background:white;
 }
 .error{
@@ -95,7 +98,16 @@ input[type="email"],
 input[type="password"] {
     outline: none;
     border: none;
-    border-bottom: blueviolet 2px solid;
+    border-bottom: #244695 2px solid;
     width: 260px;
     height: 20px;
+}
+
+
+
+a{
+    color: #182e62;
+    padding: 4px;
+    text-decoration: none;
+    font-size: 20px;
 }

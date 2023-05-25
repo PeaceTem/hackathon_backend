@@ -7,6 +7,9 @@ Venue Schedule
 
 {% block content %}
 <h3>Examination Timetable sorted by venue</h3>
+<div class="link-box">
+  <a href="{% url 'matrix' %}">Matrix and Time table</a>
+</div>
   {% for venue,activity in venues_sorted_columns %}
 <div class='container'>
     

@@ -54,33 +54,36 @@ def crossover(column_id, *args, **kwargs):
     # change the value of the current cell to 0
     # and change the value of the destination cell to 1
     # check for any clashing venue
+    # row = returned_cell.row.get_next_by_order()
+    if returned_cell.row == Row.objects.last():
+        row = Row.objects.first()
     else:
-        # row = returned_cell.row.get_next_by_order()
         row = Row.objects.filter(id__gt=returned_cell.row.id).order_by('id').first()
-        destination_cell = Cell.objects.select_related('column', 'row').get(row=row, column=returned_cell.column)
-        print("first stage")
-        # checking if the next cell value is not -1
-        if destination_cell.value != -1:
-            venue = destination_cell.column.venue
-            venue_columns  = venue.columns.select_related('time_slot').exclude(id=returned_cell.column.id)
-            A = destination_cell.column.time_slot.start_hour
-            B = destination_cell.column.time_slot.end_hour
-            for vc in venue_columns:
-                C = vc.time_slot.start_hour
-                D = vc.time_slot.end_hour
 
-                # the execution terminates if the time clashes
-                if ((A<=C<B) or (A<D<=B) or (C<=A<D) or (C<B<=D)):
-                    print('The time clashes')
-                    print(vc)
-                    return 
-                
+    destination_cell = Cell.objects.select_related('column', 'row').get(row=row, column=returned_cell.column)
+    print("first stage")
+    # checking if the next cell value is not -1
+    if destination_cell.value != -1:
+        venue = destination_cell.column.venue
+        venue_columns  = venue.columns.select_related('time_slot').exclude(id=returned_cell.column.id)
+        A = destination_cell.column.time_slot.start_hour
+        B = destination_cell.column.time_slot.end_hour
+        for vc in venue_columns:
+            C = vc.time_slot.start_hour
+            D = vc.time_slot.end_hour
 
-            print('The time does not clash')
-            returned_cell.value = 0
-            destination_cell.value = 1
-            returned_cell.save()
-            destination_cell.save()
+            # the execution terminates if the time clashes
+            if ((A<=C<B) or (A<D<=B) or (C<=A<D) or (C<B<=D)):
+                print('The time clashes')
+                print(vc)
+                return 
+            
+
+        print('The time does not clash')
+        returned_cell.value = 0
+        destination_cell.value = 1
+        returned_cell.save()
+        destination_cell.save()
     return
 
     
@@ -93,7 +96,7 @@ It tries to avoid re-scheduling and ensures the integrity of the algorithm
 It should check the availability of the venue on the new day
 
 """
-def evaluate(cell, *args, **kwargs):
+def evaluate(cell: Cell, *args, **kwargs):
     if cell.value == 1 or cell.value == -1:
         return
     elif cell.value == 0:
@@ -148,3 +151,5 @@ def test3():
     time_slot = TimeSlot.objects.get(id=9)
     column = Column.objects.get(id=8)
     print(column.__mutate__(time_slot=time_slot))
+
+    

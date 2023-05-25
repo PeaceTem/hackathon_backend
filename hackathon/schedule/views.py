@@ -17,13 +17,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.utils.translation import gettext_lazy as _
 # Create your views here.
+from .utils import evaluate, crossover, select
+
 class Schedule():
 
     def sort_activities(self, columns):
+        # sort the columns in the order of the start_hour
         columns = sorted(columns, key=sortQuiz)
         i = 0
         venue_schedule = []
-        # print(columns[i])
+        # the first column is been picked
         venue_schedule.append(columns[i])
         for j in range(1, len(columns)):
             if columns[j].time_slot.start_hour >= columns[i].time_slot.end_hour:
@@ -82,7 +85,8 @@ def testing(request):
     for cell in cells:
         if cell.row.day == day and cell.column in vet:
             print(cell)
-            cell.value = 1
+            evaluate(cell)
+            # cell.value = 1
             cell.save()
 
     venues_sorted_columns = zip(venues, venues_sorted_columns)

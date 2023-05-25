@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="{% static 'schedule/css/style.css' %}">
 </head>
 <body>
-    <div class="form-box">
-
-        <h1>Registration</h1>
+    <div class="form-box container">
+        <div class='heading'>
+        <h2>Registration</h2>
+        </div>
         <form id="registration-form" action="" method="post">
             {% csrf_token %}
             <div class="form-group">
@@ -37,6 +38,10 @@
             </div>
 
         </form>
+        <div>
+            Registered Already? <a href='/admin/'>Login</a>
+        </div>
+
     </div>
     <script type='text/javascript' src="{% static 'schedule/js/script.js' %}"></script>
 </body>

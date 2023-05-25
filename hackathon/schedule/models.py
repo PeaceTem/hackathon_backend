@@ -8,9 +8,9 @@ class CourseCode(models.Model):
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10)
     student_population = models.PositiveSmallIntegerField(default=1)
+
     def __str__(self):
         return f"{self.code}"
-
 
 
 class Venue(models.Model):
@@ -82,13 +82,14 @@ class Day(models.Model):
 
 
     def __str__(self):
-        return f"{self.day}"
+        return f"week {self.week}, {self.day}"
 
 
 
 
 class Supervisor(models.Model):
     name = models.CharField(max_length=100)
+    course = models.OneToOneField(CourseCode, null=True, blank=True, on_delete=models.CASCADE, related_name='supervisor')
 
     def __str__(self):
         return f"{self.name}"
@@ -97,10 +98,15 @@ class Supervisor(models.Model):
 
 
 # The classes for the relations
+"""
+Add constraints to the model
 
+two columns cannot have the same course
+
+"""
 class Column(models.Model):
     course_code = models.OneToOneField(CourseCode, on_delete=models.CASCADE, related_name="column")
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name="column")
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name="columns")
     venue = models.ForeignKey(Venue, null=True, blank=True, on_delete=models.CASCADE, related_name="column")
 
 
@@ -111,6 +117,7 @@ class Column(models.Model):
     def __mutate__(self, *args, **kwargs):
         print('The mutation works!')
         timeslot = None
+        venue = None
         try:
             if not kwargs['timeslot'] == None:
                 timeslot = kwargs['timeslot']
@@ -155,7 +162,12 @@ class Column(models.Model):
         return super().save(*args, **kwargs)
         
 
+"""
+Add constraints to the model
 
+two rows cannot have the same date
+
+"""
 class Row(models.Model):
     day = models.OneToOneField(Day, on_delete=models.CASCADE, related_name="row")
 
@@ -173,8 +185,8 @@ class Row(models.Model):
 class Cell(models.Model):
     VALUES = (zip(range(-1,2) , range(-1,2)))
     
-    column = models.ForeignKey(Column, on_delete=models.CASCADE, related_name="cell")
-    row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name="cell")
+    column = models.ForeignKey(Column, on_delete=models.CASCADE, related_name="cells")
+    row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name="cells")
     value = models.SmallIntegerField(choices=VALUES, default=0)
     # i = models.PositiveSmallIntegerField()
     # j = models.PositiveSmallIntegerField()
@@ -182,12 +194,13 @@ class Cell(models.Model):
     #     return f"({self.row}, {self.column})"
     
     def __str__(self):
-        return f"{self.column.course_code}, {self.column.venue}"
+        return f"{self.column.course_code}({self.column.venue})"
     
 
     def __select__(self):
         print('The selection works')
         return 1
+
 
 
 # Create Pastor Adeshida PowerPoint Presentation

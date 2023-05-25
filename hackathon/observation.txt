@@ -1,0 +1,7 @@
+- I made some cell values -1
+- The goal of the time matrix algorithm is to assign a conflict-free timeslot
+    and a day for each course
+
+
+- As at now, this system is still semi-automated
+- The goal is to make it fully automated

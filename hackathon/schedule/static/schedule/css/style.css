@@ -13,7 +13,7 @@ body{
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
-    /* min-width: 500px; */
+    min-width: 500px;
     margin: 7px;
     max-height: calc(100vh - 100px);
     overflow-y: scroll;
@@ -47,7 +47,7 @@ input[type="submit"]{
     border-radius: 4px;
     outline: none;
     border: none;
-    min-width: 200px;
+    min-width: 300px;
     color: #fff;
     
 }
@@ -64,6 +64,7 @@ input[type="submit"]:hover{
     background-color: rgb(242, 216, 216);
     padding: 7px;
     border-radius: 4px;
+    margin-top: 4px;
 }
 
 
@@ -89,11 +90,12 @@ input[type="submit"]:hover{
     border-radius: 10px;
   }
 
-img{
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 200px;
-    height: 150px;
-    border-radius: 10px;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    outline: none;
+    border: none;
+    border-bottom: blueviolet 2px solid;
+    width: 260px;
+    height: 20px;
 }

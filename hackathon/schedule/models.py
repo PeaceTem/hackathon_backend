@@ -116,11 +116,11 @@ class Column(models.Model):
 
     def __mutate__(self, *args, **kwargs):
         print('The mutation works!')
-        timeslot = None
+        time_slot = None
         venue = None
         try:
-            if not kwargs['timeslot'] == None:
-                timeslot = kwargs['timeslot']
+            if not kwargs['time_slot'] == None:
+                time_slot = kwargs['time_slot']
         except KeyError:
             pass
 
@@ -133,9 +133,10 @@ class Column(models.Model):
         if venue:
             self.venue = venue
 
-        if timeslot:
-            self.time_slot = timeslot
+        if time_slot:
+            self.time_slot = time_slot
         
+        self.save()
 
         return self
 

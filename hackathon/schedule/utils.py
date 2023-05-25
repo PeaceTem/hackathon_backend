@@ -33,6 +33,10 @@ def select(column_id, *args, **kwargs):
     
     return Cell.objects.none()
 
+
+
+def check_availability():
+    pass
 """
 The crossover function checks if a cell in the column is not scheduled
 check if the venue is available on the next row
@@ -49,6 +53,7 @@ def crossover(column_id, *args, **kwargs):
 
     # change the value of the current cell to 0
     # and change the value of the destination cell to 1
+    # check for any clashing venue
     else:
         # row = returned_cell.row.get_next_by_order()
         row = Row.objects.filter(id__gt=returned_cell.row.id).order_by('id').first()
@@ -56,10 +61,10 @@ def crossover(column_id, *args, **kwargs):
         print("first stage")
         # checking if the next cell value is not -1
         if destination_cell.value != -1:
-            venue = returned_cell.column.venue
+            venue = destination_cell.column.venue
             venue_columns  = venue.columns.select_related('time_slot').exclude(id=returned_cell.column.id)
-            A = returned_cell.column.time_slot.start_hour
-            B = returned_cell.column.time_slot.end_hour
+            A = destination_cell.column.time_slot.start_hour
+            B = destination_cell.column.time_slot.end_hour
             for vc in venue_columns:
                 C = vc.time_slot.start_hour
                 D = vc.time_slot.end_hour
@@ -102,11 +107,27 @@ def evaluate(cell, *args, **kwargs):
         # change the value of the cell selected for evaluation to 1
         # and change the value of the cell has currently has 1 as its value to 0
 
+        venue = cell.column.venue
+        venue_columns  = venue.columns.select_related('time_slot').exclude(id=returned_cell.column.id)
+        A = cell.column.time_slot.start_hour
+        B = cell.column.time_slot.end_hour
+        for vc in venue_columns:
+            C = vc.time_slot.start_hour
+            D = vc.time_slot.end_hour
+
+            # the execution terminates if the time clashes
+            if ((A<=C<B) or (A<D<=B) or (C<=A<D) or (C<B<=D)):
+                print('The time clashes')
+                print(vc)
+                return 
+            
+
+        print('The time does not clash')
         returned_cell.value = 0
         cell.value = 1
-
         returned_cell.save()
         cell.save()
+
 
     return
 
@@ -115,3 +136,15 @@ def evaluate(cell, *args, **kwargs):
 def test():
     column = Column.objects.first()
     crossover(column.id)
+
+
+
+def test2():
+    cell = Cell.objects.get(id=12)
+    evaluate(cell)
+
+
+def test3():
+    time_slot = TimeSlot.objects.get(id=9)
+    column = Column.objects.get(id=8)
+    print(column.__mutate__(time_slot=time_slot))

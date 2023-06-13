@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponse
 from .models import *
 
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
-
+from django.views import View
 
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserForm, PasswordForm
@@ -19,11 +18,16 @@ from django.utils.translation import gettext_lazy as _
 # Create your views here.
 from .utils import evaluate, crossover, select
 
+from .schedule import TimeTable
+
+
+
 class Schedule():
 
     def sort_activities(self, columns):
         # sort the columns in the order of the start_hour
-        columns = sorted(columns, key=sortQuiz)
+        columns = sorted(columns, key=sortKey)
+        columns.sort(key=sortKey)
         i = 0
         venue_schedule = []
         # the first column is been picked
@@ -37,7 +41,7 @@ class Schedule():
         return venue_schedule
         
 
-def sortQuiz(e):
+def sortKey(e):
     return e.time_slot.start_hour
 
 
@@ -99,7 +103,6 @@ def testing(request):
 
 
 
-
 class CreateSuperUser(FormView):
     template_name = 'schedule/registration.html'
     form_class = CustomUserForm
@@ -133,6 +136,16 @@ class CreateSuperUser(FormView):
 class TimeMatrix(TemplateView):
     template_name = 'schedule/time_matrix.html'
 
+
+    # def get(self, request, venue, *args, **kwargs):
+
+    #     self.venue = venue
+    #     return super(VenueTimetable, self).get(request, venue, *args, **kwargs)
+
+
+
+
+
     # get all the data that will be rendered to the user
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -140,7 +153,8 @@ class TimeMatrix(TemplateView):
         rows = Row.objects.select_related('day').all()
         cells = Cell.objects.select_related('column', 'row').all()
         days = Day.objects.all()
-        time = [0,1,2,3,4,5,6,7,8,9,10]
+        time = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+
         context['columns'] = columns
         context['rows'] = rows
         context['cells'] = cells
@@ -148,3 +162,116 @@ class TimeMatrix(TemplateView):
         context['time'] = time
 
         return context
+
+
+
+class VenueTimetable(TemplateView):
+    template_name = 'schedule/venue_timetable.html'
+
+
+    def get(self, request, venue, *args, **kwargs):
+
+        self.venue = venue
+        return super(VenueTimetable, self).get(request, venue, *args, **kwargs)
+
+
+
+    def get_context_data(self, **kwargs):
+        print(self.venue)
+        context = super().get_context_data(**kwargs)
+        venue = Venue.objects.get(name=self.venue)
+        columns = Column.objects.select_related('time_slot').prefetch_related('cells').filter(venue=venue)
+        cells = Cell.objects.none()
+        for column in columns:
+            k = column.cells.select_related('column', 'row').all()
+            cells = cells.union(k)
+        days = Day.objects.all()
+        time = [0,1,2,3,4,5,6,7,8,9,10,11,12]
+        print(cells)
+        context['venue'] = venue
+        context['columns'] = columns
+        context['cells'] = cells
+        context['days'] = days
+        context['time'] = time
+
+
+        return context
+
+
+
+
+
+from .utils import render_to_pdf
+class GeneratePDF(View):
+    # time matrix
+    def get(self, request, *args, **kwargs):
+        # template = get_template('quiz/takequiz.html')
+
+        columns = Column.objects.select_related('time_slot').all()
+        rows = Row.objects.select_related('day').all()
+        cells = Cell.objects.select_related('column', 'row').all()
+        days = Day.objects.all()
+        time_slots = TimeSlot.objects.all()
+
+        context = {
+            'columns': columns,
+            'rows': rows,
+            'cells': cells,
+            'days': days,
+            'time_slots' : time_slots,
+        }
+
+        pdf = render_to_pdf('schedule/pdf.html', context)
+
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = f"Matrix.pdf"
+            content = f"inline; filename={filename}"
+            # content = f"attachment; filename={filename}"
+            response['Content-Disposition'] = content
+
+            return response
+        return HttpResponse("Not Found!")
+
+
+
+"""
+This view should be called at the response to a button(schedule)
+
+"""
+
+
+class ScheduleCourses(TemplateView):
+    template_name = 'schedule/timetable.html'
+
+
+    def get(self, request, *args, **kwargs):
+        # TimeTable(Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').all()).process()
+
+        return super(ScheduleCourses, self).get(request, *args, **kwargs)
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        columns = Column.objects.select_related('time_slot').all()
+        rows = Row.objects.select_related('day').all()
+        cells = Cell.objects.select_related('column', 'row').all()
+        days = Day.objects.all()
+        # change the time slot
+        time_slots = TimeSlot.objects.all()
+        context['columns'] = columns
+        context['rows'] = rows
+        context['cells'] = cells
+        context['days'] = days
+        context['time_slots'] = time_slots
+
+        return context
+
+
+
+
+class TableView(TemplateView):
+    template_name='schedule/testing'
+
+
+

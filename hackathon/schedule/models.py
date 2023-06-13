@@ -5,10 +5,19 @@ from django.db import models
 
 
 class CourseCode(models.Model):
+    LEVELS = (
+        (100, 100),
+        (200, 200),
+        (300, 300),
+        (400, 400),
+        (500, 500),
+
+    )
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10)
     student_population = models.PositiveSmallIntegerField(default=1)
-
+    level = models.PositiveSmallIntegerField(choices=LEVELS)
+    
     def __str__(self):
         return f"{self.code}"
 
@@ -59,6 +68,27 @@ class TimeSlot(models.Model):
         return f"{self.start_time} - {self.end_time}"
 
     
+    # recursive algorithm combined with backtracking algorithm
+    def __add__(self, value=1):
+        if value == 0:
+            return self
+        
+        
+        if self == TimeSlot.objects.last():
+            return TimeSlot.objects.first() + (value - 1)
+            
+        else:
+            return TimeSlot.objects.filter(id__gt=self.id).order_by('id').first() + (value - 1)
+
+
+
+
+
+
+
+
+
+
 
 class Day(models.Model):
     DAYS = (
@@ -176,11 +206,19 @@ class Row(models.Model):
     def __str__(self):
         return f"{self.day}"
 
+    # recursive algorithm (later) combined with backtracking algorithm
+    def __add__(self, value=1):
+        if value == 0:
+            return self
+        
+        
+        if self == Row.objects.last():
+            return Row.objects.first() + (value - 1)
+        else:
+            # row = Row.objects.filter(id__gt=self.id).order_by('id')[value-1:value][0]
+            return Row.objects.filter(id__gt=self.id).order_by('id')[0] + (value - 1)
 
-    
 
-    # def __crossover__(self):
-    #     next_object = self.get_next_by_order()
         
 
 class Cell(models.Model):
@@ -189,19 +227,7 @@ class Cell(models.Model):
     column = models.ForeignKey(Column, on_delete=models.CASCADE, related_name="cells")
     row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name="cells")
     value = models.SmallIntegerField(choices=VALUES, default=0)
-    # i = models.PositiveSmallIntegerField()
-    # j = models.PositiveSmallIntegerField()
-    # def __str__(self):
-    #     return f"({self.row}, {self.column})"
     
     def __str__(self):
         return f"{self.column.course_code}({self.column.venue})"
     
-
-    def __select__(self):
-        print('The selection works')
-        return 1
-
-
-
-# Create Pastor Adeshida PowerPoint Presentation

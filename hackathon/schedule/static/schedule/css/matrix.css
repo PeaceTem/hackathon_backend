@@ -14,14 +14,16 @@ body{
     padding: 7px;
     border-radius: 4px;
     margin:5px;
+    overflow-x:scroll;
+    overflow-y:scroll;
 }
 
 table {
     border-collapse: collapse;
     width: 100%;
     overflow-x: scroll;
+
   }
-  
 
   th, td {
     border: 1px solid rgb(137, 101, 101);
@@ -34,7 +36,7 @@ table {
     color: white;
   }
 
-  tr:nth-child(odd){
+  td:nth-child(odd){
     background-color: #b5c6ee;
   }
 

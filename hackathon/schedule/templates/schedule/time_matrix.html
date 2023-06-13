@@ -4,20 +4,35 @@
 {% block title %}
 Time Matrix
 {% endblock title %}
+{% block head %}
+{% include 'schedule/main.html' %}
+{% endblock head %}
+
+
 
 {% block content %}
 <h3> Time Matrix </h3>
 <div class="link-box">
   <a href="{% url 'venue' %}">Venue Schedule</a>
 </div>
-<div class='container'>
+
+
+
+
+<div class="limiter">
+  <div class="container-table100">
+  <div class="wrap-table100">
+  <div class="table100">
   <table>
-    <tr>
+    <thead>
+    <tr class="table100-head">
       <th></th>
         {% for column in columns %}
-          <th>{{column}}</th>
+          <th>{{column.course_code}}</th>
         {% endfor %}
     </tr>
+    </thead>
+    <tbody>
     {% for row in rows %}
         <tr>
           <td>{{row}}</td>
@@ -30,45 +45,30 @@ Time Matrix
         {% endfor %}
         </tr>
     {% endfor %}
+    </tbody>
+
   </table>
 </div>
-
-  <br>
-  <br>
-  <br>
-  <br>
-
-
-<div class='container'>
-  <table>
-    <tr>
-      <th>Time/Day</th>
-        {% for day in days %}
-          <th>{{day}}</th>
-        {% endfor %}
-    </tr>
-    {% for t in time %}
-        <tr>
-          <td>{{t}}</td>
-        {% for day in days %}
-        <td> 
-        
-        {% for cell in cells %}
-              {% if cell.column.time_slot.start_hour <= t and t < cell.column.time_slot.end_hour %}
-            {% if cell.row.day == day %}
-            {% if cell.value == 1 %}
-              {{cell}} ,
-            {% endif %}
-            {% endif %}
-
-            {% endif %}
-        {% endfor %}
-      </td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-  </table>
+</div>
+</div>
 </div>
 
 
+
+<script>
+  function getDeviceTheme() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+    } else {
+        return 'light';
+    }
+  }
+
+// Usage
+var deviceTheme = getDeviceTheme();
+console.log('Device theme:', deviceTheme);
+</script>
+  
 {% endblock content %}
+
+

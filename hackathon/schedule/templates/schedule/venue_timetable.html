@@ -1,0 +1,48 @@
+{% extends 'schedule/base.html' %}
+
+
+
+{% block title %}
+{{venue}} TimeTable
+{% endblock title %}
+
+{% block content %}
+
+
+<div class='container'>
+    <table>
+      <tr>
+        <th>Time/Day</th>
+          {% for day in days %}
+            <th>{{day}}</th>
+          {% endfor %}
+      </tr>
+  
+      {% for t in time %}
+          <tr>
+            <td>{{t}}</td>
+          {% for day in days %}
+          <td> 
+          
+          {% for cell in cells %}
+                {% if cell.column.time_slot.start_hour <= t and t < cell.column.time_slot.end_hour %}
+              {% if cell.row.day == day %}
+              {% if cell.value == 1 %}
+                {{cell}} ,
+              {% endif %}
+              {% endif %}
+  
+              {% endif %}
+          {% endfor %}
+        </td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <a href="{% url 'pdf' %}">Download PDF</a>
+  
+  {% endblock content %}
+  
+  
+  

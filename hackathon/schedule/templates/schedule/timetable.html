@@ -1,0 +1,86 @@
+
+{% extends 'schedule/base.html' %}
+
+{% block title %}
+TimeTable
+{% endblock title %}
+
+{% block head %}
+{% include 'schedule/main.html' %}
+{% endblock head %}
+
+
+
+{% block header %}
+<div>
+
+  <h3> TimeTable Scheduler </h3>
+<div class="link-box">
+  <a href="{% url 'venue' %}">Venue Schedule</a>
+</div>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+  <div class="limiter">
+    <div class="container-table100">
+    <div class="wrap-table100">
+    <div class="table100">
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th>Time/Day</th>
+        {% for time_slot in time_slots %}
+            <th>{{time_slot}}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for row in rows %}
+        <tr>
+            <td>{{row}}</td>
+            {% for time_slot in time_slots %}
+                <td>
+                {% for cell in cells %}
+                    {% if cell.value == 1 and cell.row == row and cell.column.time_slot == time_slot %}
+                        {{cell}}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+      </tbody>
+  </table>
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+  function getDeviceTheme() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+    } else {
+        return 'light';
+    }
+  }
+
+// Usage
+var deviceTheme = getDeviceTheme();
+console.log('Device theme:', deviceTheme);
+</script>
+{% endblock content %}
+
+
+
+{% block footer %}
+<div>
+  <a href="{% url 'pdf' %}">Download PDF</a>
+  <div>Built By E-Factorial</div>
+</div>
+{% endblock footer %}

@@ -35,9 +35,9 @@ h1{
 .form-group{
     margin: 5px;
     padding: 5px;
-    /* display:flex;
-    justify-self: start;
-    align-items: start; */
+    display:flex;
+    justify-content: space-between;
+    align-items: start; 
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 }
@@ -50,7 +50,7 @@ input[type="submit"]{
     border-radius: 4px;
     outline: none;
     border: none;
-    min-width: 300px;
+    width: 100%;
     color: #fff;
     
 }
@@ -99,7 +99,8 @@ input[type="password"] {
     outline: none;
     border: none;
     border-bottom: #244695 2px solid;
-    width: 260px;
+    /* width: 260px; */
+    width: 100%;
     height: 20px;
 }
 

@@ -1,0 +1,63 @@
+{% extends 'schedule/base.html' %}
+
+
+  {% block header %}
+  <div> 
+    <h3> TimeTable </h3>
+  </div>
+  {% endblock header %}
+  
+  
+  {% block content %}
+  
+    <div class="limiter">
+      <div class="container-table100">
+      <div class="wrap-table100">
+      <div class="table100">
+    <table>
+      <thead>
+      <tr class="table100-head">
+        <th>Time/Day</th>
+          {% for time_slot in time_slots %}
+              <th>{{time_slot}}</th>
+          {% endfor %}
+      </tr>
+      </thead>
+  
+      <tbody>
+      {% for row in rows %}
+          <tr>
+              <td>{{row}}</td>
+              {% for time_slot in time_slots %}
+                  <td>
+                  {% for cell in cells %}
+                      {% if cell.value == 1 and cell.row == row and cell.column.time_slot == time_slot %}
+                          {{cell}}
+                      {% endif %}
+                  {% endfor %}
+                  </td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+        </tbody>
+    </table>
+  </div>
+  </div>
+  </div>
+  </div>
+  
+</body>
+</html>
+{% endblock content %}
+
+
+{% block footer %}
+<br>
+<br>
+<br>
+<br>
+
+<div>
+  <div>Built By E-Factorial</div>
+</div>
+{% endblock footer %}

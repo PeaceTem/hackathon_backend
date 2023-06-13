@@ -7,16 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'schedule/css/matrix.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'schedule/css/main.css' %}"> {% endcomment %}
+    <link href='https://fonts.googleapis.com/css?family=Sono' rel='stylesheet'>
+    
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    {% block head %}{% endblock head %}
 </head>
 <body>
-<br>
-<br>
+<header id="header">
+    {% block header %}
 
+    {% endblock header %}
+</header>
+<section>
 {% block content %}
 {% endblock content %}
-<br>
-<br>
+</section>
+
+<footer id="footer">
+    {% block footer %}
+
+    {% endblock footer %}
+</footer>
 
 </body>
 </html>

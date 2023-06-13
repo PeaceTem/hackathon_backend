@@ -1,0 +1,55 @@
+from .algorithm import Algorithm
+from .models import Column
+
+class TimeTable():
+    
+    """
+    This is the interface for scheduling courses
+    The Algorithm class with not be interacted with in the views.py 
+    """
+
+    def __init__(self, columns):
+        self.columns = columns
+        self.residue = []
+
+
+
+    def __str__(self):
+        return f"<TimeTable: ...>"
+
+
+    def process(self):
+        print(f"There are {self.columns.count()} courses.")
+        for column in self.columns:
+            print(f"Scheduling for {column} has started!")
+            scheduled = Algorithm(column)._crossover()
+            # check if the column has been evaluate or not so it can be added as the
+            # residue part of the algorithm
+
+            if not scheduled:
+                self.residue.append(column)
+
+
+        print("This are the residue of the algorithm:", self.residue)
+        return True
+
+
+
+"""
+Revise OOP in python:
+Static Method
+class method
+setter and getter
+polymorphism
+encapsulation
+abstraction
+
+"""
+
+
+def test():
+    print('Testing has started!')
+
+    cols = Column.objects.all()
+    t = TimeTable(cols)
+    t.process()

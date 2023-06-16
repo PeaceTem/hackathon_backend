@@ -4,6 +4,9 @@
 {% block title %}
 Time Matrix
 {% endblock title %}
+
+
+
 {% block head %}
 {% include 'schedule/main.html' %}
 {% endblock head %}
@@ -11,11 +14,19 @@ Time Matrix
 
 
 {% block content %}
-<h3> Time Matrix </h3>
-<div class="link-box">
-  <a href="{% url 'venue' %}">Venue Schedule</a>
-</div>
 
+
+
+{% block header %}
+<div>
+
+  <h3> Time Matrix </h3>
+  <div class="link-box">
+    <a href="{% url 'venue' %}">Venue Schedule</a>
+  </div>
+    
+</div>
+{% endblock header %}
 
 
 
@@ -72,3 +83,12 @@ console.log('Device theme:', deviceTheme);
 {% endblock content %}
 
 
+
+
+{% block footer %}
+<div>
+  <div>This page is  algorithm</div>
+
+  <div>Built By E-Factorial</div>
+</div>
+{% endblock footer %}

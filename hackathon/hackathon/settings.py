@@ -76,11 +76,25 @@ WSGI_APPLICATION = "hackathon.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+
+
+
 DATABASES = {
     # "default": {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3" if not DEBUG else BASE_DIR / "real.sqlite3",
-    # }
+    # } WqgTqwn1DM1yA0wa   name = hackathon
+
+    'default' : {          # conveniently, postgres on supabase as well
+        'ENGINE' : 'django.db.backends.postgresql',
+        'NAME' : 'postgres',
+        'HOST' : 'db.gkxnokmmdrtzsrbxwjam.supabase.co',
+        'PASSWORD': 'WqgTqwn1DM1yA0wa',
+        'PORT': 5432,
+        'USER': 'postgres',
+        # 'CERT' : 'config.prod-ca-2021.crt',      # download this from database/settings and put in your main app folder
+    }
 }
 
 
@@ -96,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
-
+  
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

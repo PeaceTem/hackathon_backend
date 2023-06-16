@@ -34,6 +34,15 @@ class TimeTable():
         return True
 
 
+"""
+Add an health-check method to check if the timetable is conflict-free
+
+"""
+
+
+
+
+
 
 """
 Revise OOP in python:

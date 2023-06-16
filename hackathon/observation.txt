@@ -25,6 +25,12 @@ this state can be reused
 
 
 
+Courses should have list of venues that they can use
+
+
+
+Use Rail Ways PostgreSQL database
+
 
 
 

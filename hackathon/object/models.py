@@ -34,7 +34,18 @@ class Object(models.Model):
     """
     University of Ibadan is an instance of the root object
     faculty is an entity in university of ibadan
-    These are the instances of faculty( science, technology)
+    These are the instances of faculty( science, technology, etc.)
+    faculty is a child of the entity university(or school)
+    department is a child of the faculty
+    There are many instances of the department
+
+    An Example
+    - University: #UI
+        - Faculty: #Science(UI) #Technology #Art #Education
+            - Department: #Computer Science#(Science) 
+        
+
+    The university entity will be created by default when registering the institution
     
     """
 

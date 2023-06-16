@@ -37,46 +37,6 @@ Use Rail Ways PostgreSQL database
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   "version": 2,
   "builds": [
@@ -106,7 +66,8 @@ Use Rail Ways PostgreSQL database
 }
 
 
-
+Create a function that will copy 
+all what is in the tables created by you to the database
 
 
 

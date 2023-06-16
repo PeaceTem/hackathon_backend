@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-1s$sq*ou^3rrbk_vq2!xmi=__+6-@s1#b-(y&g6*s6!8d7x_0q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost']
 
 # Application definition
 
@@ -78,22 +78,21 @@ WSGI_APPLICATION = "hackathon.wsgi.application"
 
 
 
-
-
-DATABASES = {
     # "default": {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3" if not DEBUG else BASE_DIR / "real.sqlite3",
     # } WqgTqwn1DM1yA0wa   name = hackathon
 
-    'default' : {          # conveniently, postgres on supabase as well
+
+DATABASES = {
+    'default' : {
         'ENGINE' : 'django.db.backends.postgresql',
         'NAME' : 'postgres',
         'HOST' : 'db.gkxnokmmdrtzsrbxwjam.supabase.co',
         'PASSWORD': 'WqgTqwn1DM1yA0wa',
         'PORT': 5432,
         'USER': 'postgres',
-        # 'CERT' : 'config.prod-ca-2021.crt',      # download this from database/settings and put in your main app folder
+        'CERT' : 'prod-ca-2021.crt',      # download this from database/settings and put in your main app folder
     }
 }
 

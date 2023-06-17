@@ -44,7 +44,7 @@ body,html{
     flex-wrap: wrap;
 }
 
-a{
+a, input[type="submit"]{
     padding: 10px;
     background: white;
     box-shadow: inset 1px 2px 3px #999, inset -1px -2px 3px #999;
@@ -53,9 +53,10 @@ a{
     text-decoration: none;
     font-weight: bold;
     border-radius: 7px;
+    cursor: pointer;
 }
 
-a:focus, a:hover{
+a:focus, a:hover, input[type="submit"]:hover, input[type="submit"]:focus{
     outline:none!important;
     box-shadow: inset 1px 2px 0px #999, inset -1px -2px 0px #999;
     border: 1px solid #36304a;

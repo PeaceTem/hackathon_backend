@@ -137,12 +137,11 @@ class TimeMatrix(TemplateView):
     template_name = 'schedule/time_matrix.html'
 
 
-    # def get(self, request, venue, *args, **kwargs):
-
-    #     self.venue = venue
-    #     return super(VenueTimetable, self).get(request, venue, *args, **kwargs)
-
-
+    def post(self, request, *args, **kwargs):
+        TimeTable(Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').all()).process()
+        return redirect('matrix')
+        # return super(TimeMatrix, self).get(request, *args, **kwargs)
+    
 
 
 
@@ -245,11 +244,6 @@ class ScheduleCourses(TemplateView):
     template_name = 'schedule/timetable.html'
 
 
-    def get(self, request, *args, **kwargs):
-        # TimeTable(Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').all()).process()
-
-        return super(ScheduleCourses, self).get(request, *args, **kwargs)
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

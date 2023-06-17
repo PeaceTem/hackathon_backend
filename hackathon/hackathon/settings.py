@@ -77,24 +77,24 @@ WSGI_APPLICATION = "hackathon.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3" if not DEBUG else BASE_DIR / "real.sqlite3",
-    # } WqgTqwn1DM1yA0wa   name = hackathon
-
-
 DATABASES = {
-    'default' : {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME' : 'postgres',
-        'HOST' : 'db.gkxnokmmdrtzsrbxwjam.supabase.co',
-        'PASSWORD': 'WqgTqwn1DM1yA0wa',
-        'PORT': 5432,
-        'USER': 'postgres',
-        'CERT' : 'prod-ca-2021.crt',      # download this from database/settings and put in your main app folder
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3" if not DEBUG else BASE_DIR / "real.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default' : {
+#         'ENGINE' : 'django.db.backends.postgresql',
+#         'NAME' : 'postgres',
+#         'HOST' : 'db.gkxnokmmdrtzsrbxwjam.supabase.co',
+#         'PASSWORD': 'WqgTqwn1DM1yA0wa',
+#         'PORT': 5432,
+#         'USER': 'postgres',
+#         'CERT' : BASE_DIR / 'prod-ca-2021.crt',      # download this from database/settings and put in your main app folder
+#     }
+# }
 
 
 # Password validation

@@ -1,5 +1,7 @@
 from .algorithm import Algorithm
 from .models import Column
+import random
+
 
 class TimeTable():
     
@@ -9,7 +11,7 @@ class TimeTable():
     """
 
     def __init__(self, columns):
-        self.columns = columns
+        self.columns = columns.order_by('?')
         self.residue = []
 
 
@@ -20,6 +22,10 @@ class TimeTable():
 
     def process(self):
         print(f"There are {self.columns.count()} courses.")
+
+        #shuffling the columns before scheduling
+        # random.shuffle(self.columns)
+
         for column in self.columns:
             print(f"Scheduling for {column} has started!")
             scheduled = Algorithm(column)._crossover()

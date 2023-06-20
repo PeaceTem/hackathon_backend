@@ -19,11 +19,12 @@ body,html{
 
 #header, #footer{
     padding: 10px;
-    position: absolute;
+    position: sticky;
     background:#36304a;
     width: 100%;
     color: #fff;
-    font-family: Sono-Regular; 
+    font-family: Sono-Regular;
+    z-index:3; 
 }
 
 
@@ -54,12 +55,13 @@ a, input[type="submit"]{
     font-weight: bold;
     border-radius: 7px;
     cursor: pointer;
+    border: 1px solid #36304a;
+
 }
 
 a:focus, a:hover, input[type="submit"]:hover, input[type="submit"]:focus{
     outline:none!important;
     box-shadow: inset 1px 2px 0px #999, inset -1px -2px 0px #999;
-    border: 1px solid #36304a;
     color: #fff;
     background: #36304a;
 }
@@ -134,7 +136,6 @@ iframe{
 }
 
 .wrap-table100{
-    /* width:1170px; */
     width: 98%;
     overflow-x: scroll;
     border-radius:10px;

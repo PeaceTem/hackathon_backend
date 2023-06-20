@@ -1,5 +1,5 @@
 from django.db import models
-
+from department.models import Department
 
 # Create your models here.
 
@@ -17,7 +17,9 @@ class CourseCode(models.Model):
     code = models.CharField(max_length=10)
     student_population = models.PositiveSmallIntegerField(default=1)
     level = models.PositiveSmallIntegerField(choices=LEVELS)
-    
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="courses")
+
+
     def __str__(self):
         return f"{self.code}"
 
@@ -25,6 +27,9 @@ class CourseCode(models.Model):
 class Venue(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.PositiveSmallIntegerField(default=1)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="venues")
+
+
     def __str__(self):
         return f"{self.name}"
 
@@ -120,6 +125,8 @@ class Day(models.Model):
 class Supervisor(models.Model):
     name = models.CharField(max_length=100)
     course = models.OneToOneField(CourseCode, null=True, blank=True, on_delete=models.CASCADE, related_name='supervisor')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="supervisors")
+
 
     def __str__(self):
         return f"{self.name}"
@@ -138,7 +145,6 @@ class Column(models.Model):
     course_code = models.OneToOneField(CourseCode, on_delete=models.CASCADE, related_name="column")
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name="columns")
     venue = models.ForeignKey(Venue, null=True, blank=True, on_delete=models.CASCADE, related_name="columns")
-
 
     def __str__(self):
         return f"{self.course_code}, {self.time_slot}, {self.venue}"

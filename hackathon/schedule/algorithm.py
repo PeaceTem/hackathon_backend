@@ -13,7 +13,7 @@ from django.core.exceptions import EmptyResultSet
 import random,math
 
 
-class Algorithm():
+class Algorithm:
     """
     Add the all the time_slots to a class variable cls.time_slots
     and use random on it instead of adding a delimiter to the class
@@ -73,7 +73,7 @@ class Algorithm():
         return None
 
 
-    def selection_service(self, column, *args, **kwargs):
+    def selection_service(self, column: Column, *args, **kwargs):
         column = Column.objects.prefetch_related('cells').get(id=column.id)
 
         for cell in column.cells.all():
@@ -151,11 +151,6 @@ class Algorithm():
 
     def _evaluation(self, cell: Cell, *args, **kwargs):
         """
-        You can store other venues in a global variable later
-        
-
-        use day to check also
-
         turn all these small block of code to a method in this class
         """
 
@@ -182,6 +177,14 @@ class Algorithm():
                         # print(vc)
 
                         return False
+                    
+                """
+                Change the returned_cell value to 0
+
+                returned_cell.value = 0
+                returned_cell.save()
+                
+                """
 
 
 

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     "schedule.apps.ScheduleConfig",
     "object.apps.ObjectConfig",
+    "department.apps.DepartmentConfig",
+    "faculty.apps.FacultyConfig",
 ]
 
 MIDDLEWARE = [

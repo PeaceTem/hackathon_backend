@@ -133,7 +133,7 @@ class CreateSuperUser(FormView):
         return super(CreateSuperUser, self).get(request, *args, **kwargs)
 
 
-class TimeMatrix(TemplateView):
+class TimeMatrix(LoginRequiredMixin, TemplateView):
     template_name = 'schedule/time_matrix.html'
 
 

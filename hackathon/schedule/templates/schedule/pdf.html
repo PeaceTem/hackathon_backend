@@ -1,9 +1,46 @@
 {% extends 'schedule/base.html' %}
 
 
+
+{% block head %}
+<style>
+
+table {
+  border-collapse: collapse;
+  border-radius:10px;
+  
+}
+
+th {
+  background-color: #182e62;
+  color: white;
+}
+
+
+td, th{
+  padding: 10px;
+  border: 1px solid #aaa;
+}
+
+.wrap-table100{
+  width: 98%;
+  border-radius:10px;
+}
+
+
+table thead tr{
+  height:100px;
+  background:#36304a;
+}
+
+</style>
+
+{% endblock head %}
+
+
   {% block header %}
   <div> 
-    <h3> TimeTable </h3>
+    <h3> Computer Science Department TimeTable </h3>
   </div>
   {% endblock header %}
   

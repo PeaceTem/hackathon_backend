@@ -4,6 +4,19 @@ from department.models import Department
 # Create your models here.
 
 
+
+class Supervisor(models.Model):
+    name = models.CharField(max_length=100)
+    # course = models.OneToOneField(CourseCode, null=True, blank=True, on_delete=models.CASCADE, related_name='supervisor')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="supervisors")
+
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+
+
 class CourseCode(models.Model):
     LEVELS = (
         (100, 100),
@@ -18,7 +31,7 @@ class CourseCode(models.Model):
     student_population = models.PositiveSmallIntegerField(default=1)
     level = models.PositiveSmallIntegerField(choices=LEVELS)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="courses")
-
+    supervisor = models.ForeignKey(Supervisor, on_delete=models.SET_NULL, null=True, blank=True, related_name="courses")
 
     def __str__(self):
         return f"{self.code}"
@@ -119,17 +132,6 @@ class Day(models.Model):
     def __str__(self):
         return f"week {self.week}, {self.day}"
 
-
-
-
-class Supervisor(models.Model):
-    name = models.CharField(max_length=100)
-    course = models.OneToOneField(CourseCode, null=True, blank=True, on_delete=models.CASCADE, related_name='supervisor')
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="supervisors")
-
-
-    def __str__(self):
-        return f"{self.name}"
 
 
 

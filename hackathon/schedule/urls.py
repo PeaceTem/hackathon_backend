@@ -10,4 +10,10 @@ urlpatterns = [
     path('pdf', GeneratePDF.as_view(), name="pdf"),
     path('venue/<str:venue>', VenueTimetable.as_view(), name='venue-timetable'),
     path('', ScheduleCourses.as_view(), name="schedule-courses"),
+    path('department-exclusion', DepartmentExclusion.as_view(), name="department-exclusion")
 ]
+
+
+
+
+

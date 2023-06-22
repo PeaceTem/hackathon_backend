@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponse
+from django.http import JsonResponse
+
 from .models import *
 
 from django.views.generic.edit import FormView
@@ -19,6 +21,8 @@ from django.utils.translation import gettext_lazy as _
 from .utils import evaluate, crossover, select
 
 from .schedule import TimeTable
+
+from .modify  import Modify
 
 
 
@@ -103,6 +107,10 @@ def testing(request):
 
 
 
+
+
+
+
 class CreateSuperUser(FormView):
     template_name = 'schedule/registration.html'
     form_class = CustomUserForm
@@ -139,7 +147,7 @@ class TimeMatrix(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         TimeTable(Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').all()).process()
-        return redirect('matrix')
+        return redirect('schedule-courses')
         # return super(TimeMatrix, self).get(request, *args, **kwargs)
     
 
@@ -152,13 +160,14 @@ class TimeMatrix(LoginRequiredMixin, TemplateView):
         rows = Row.objects.select_related('day').all()
         cells = Cell.objects.select_related('column', 'row').all()
         days = Day.objects.all()
-        time = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+        time_slots = TimeSlot.objects.all()
+
 
         context['columns'] = columns
         context['rows'] = rows
         context['cells'] = cells
         context['days'] = days
-        context['time'] = time
+        context['time_slots'] = time_slots
 
         return context
 
@@ -185,13 +194,14 @@ class VenueTimetable(TemplateView):
             k = column.cells.select_related('column', 'row').all()
             cells = cells.union(k)
         days = Day.objects.all()
-        time = [0,1,2,3,4,5,6,7,8,9,10,11,12]
+        time_slots = TimeSlot.objects.all()
+
         print(cells)
         context['venue'] = venue
         context['columns'] = columns
         context['cells'] = cells
         context['days'] = days
-        context['time'] = time
+        context['time_slots'] = time_slots
 
 
         return context
@@ -264,8 +274,53 @@ class ScheduleCourses(TemplateView):
 
 
 
-class TableView(TemplateView):
-    template_name='schedule/testing'
+class DepartmentExclusion(View):
 
+    def get(self, request):
+        category = self.request.GET.get('category')
+
+        # return all the available levels for the department
+        if category == "level":
+            return JsonResponse({'level': [100, 200, 300, 400, 500]})
+        
+
+        
+        elif category == "course":
+            # use serializers later
+            courses = CourseCode.objects.all()
+            return JsonResponse({'courses' : [*courses]})
+
+        elif category == 'all':
+            pass
+
+        return JsonResponse({'modified': True})
+
+    def post(self, request):
+        category = self.request.POST.get('category')
+        time_slot = self.request.POST.get('time_slot')
+
+        time_slot = TimeSlot.objects.get(id=int(time_slot))
+
+        row = self.request.POST.get('row')
+
+        row = Row.objects.get(id=int(row))
+
+        print("started departmental cells exclusion")
+
+        if category == "level":
+
+            level = int(self.request.POST.get('level'))
+            Modify.level_cells_exclusion(level, time_slot, row)
+
+        elif category == "course":
+            pass
+
+        elif category == "all":
+            # exclude a time slot / row for the whole department
+            department = Department.objects.get(name='Computer Science')
+            Modify.department_cells_exclusion(department, time_slot, row)
+            print("finished departmental cells exclusion")
+
+        return JsonResponse({'modified': True})
 
 

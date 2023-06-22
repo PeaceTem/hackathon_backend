@@ -6,10 +6,36 @@
 {{venue}} TimeTable
 {% endblock title %}
 
+
+{% block head %}
+{% include 'schedule/main.html' %}
+{% endblock head %}
+
+
+
+
+{% block header %}
+<div>
+
+  <h3>{{venue}} TimeTable</h3>
+  <div class="link-box">
+    <a href="{% url 'schedule-courses' %}">TimeTable</a>
+  </div>
+    
+</div>
+{% endblock header %}
+
+
+
+
 {% block content %}
 
 
-<div class='container'>
+
+<div class="limiter">
+  <div class="container-table100">
+  <div class="wrap-table100">
+  <div class="table100">
     <table>
       <tr>
         <th>Time/Day</th>
@@ -18,17 +44,18 @@
           {% endfor %}
       </tr>
   
-      {% for t in time %}
+      {% for time_slot in time_slots %}
           <tr>
-            <td>{{t}}</td>
+            <td>{{time_slot}}</td>
           {% for day in days %}
           <td> 
           
           {% for cell in cells %}
-                {% if cell.column.time_slot.start_hour <= t and t < cell.column.time_slot.end_hour %}
+                {% if cell.column.time_slot == time_slot %}
+
               {% if cell.row.day == day %}
               {% if cell.value == 1 %}
-                {{cell}} ,
+                {{cell}} 
               {% endif %}
               {% endif %}
   
@@ -40,8 +67,10 @@
       {% endfor %}
     </table>
   </div>
-  <a href="{% url 'pdf' %}">Download PDF</a>
-  
+</div>
+</div>
+</div>
+
   {% endblock content %}
   
   

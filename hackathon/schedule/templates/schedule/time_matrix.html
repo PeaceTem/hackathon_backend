@@ -66,6 +66,143 @@ Time Matrix
 
 
 
+
+<div class="limiter">
+  <div class="container-form">
+  <div class="wrap-form">
+<div id="form-container">
+<form id="exclusion-form" method="post" action="department-exclusion">
+  {% csrf_token %}
+
+  <div class="form-input">
+  <label for="category">Category</label>
+  <select id="categoryField" name="category">
+    <option value="">----------</option>
+    <option value="all">All</option>
+    <option value="level">Level of Study</option>
+    <option value="course">Course</option>
+  </select>
+  </div>
+  <div id="generatedField" class="form-input">
+
+  </div>
+
+  <div class="form-input">
+    <label for="time_slot">TimeSlot</label>
+    <select name="time_slot">
+    <option value="">----------</option>
+
+    {% for t in time_slots %}
+    <option value="{{t.id}}">{{t}}</option>
+    {% endfor %}
+
+    </select>
+  </div>
+
+  <div class="form-input">
+    <label for="row">Row</label>
+    <select name="row">
+    <option value="">----------</option>
+
+    {% for row in rows %}
+    <option value="{{row.id}}">{{row}}</option>
+    {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-input">
+    <input type="submit" value="Exclude">
+  </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+ var form = document.getElementById("exclusion-form");
+ var categoryField = document.getElementById("categoryField");
+ var generatedField = document.getElementById("generatedField");
+
+ categoryField.addEventListener("change", ()=>{
+  generatedField.innerHTML = '';
+  var categoryFieldValue = categoryField.value
+ 
+   if (categoryFieldValue != "" && categoryFieldValue !== 'all'){
+       fetch(form.action + "?category=" + categoryFieldValue, {
+           method: "GET",
+       })
+       .then(response => response.json())
+       .then(data => {
+           // Handle the response from the server
+           console.log(data);
+           let selectTag = `
+           <label for="${categoryFieldValue}">${categoryFieldValue}</label>
+           <select id="categoryValueField" name="${categoryFieldValue}">
+            <option value="">----------</option>
+             <option value="all">All</option>`;
+
+            if (data.level){
+
+
+            data.level.forEach(d =>{
+              selectTag +=`<option value="${d}">${d}</option>`
+            })
+
+            }
+
+            else if (data.courses){
+              
+
+            data.couses.forEach(c =>{
+              selectTag +=`<option value="${c.id}">${c.code}</option>`
+            })
+            }
+
+            selectTag +=`</select>`;
+            generatedField.innerHTML = selectTag;
+       })
+       .catch(error => {
+           // Handle any errors that occur during the request
+           console.error(error);
+       });
+   }
+       
+   }
+ )
+ 
+ 
+   form.addEventListener("submit", function (event) {
+       event.preventDefault(); 
+       submitForm();
+   });
+       
+   function submitForm() {
+     var formData = new FormData(form);
+     fetch(form.action, {
+         method: "POST",
+         headers: {
+             "X-CSRFToken": "{{ csrf_token }}",
+         },
+         body: formData
+     })
+     .then(response => response.json())
+     .then(data => {
+         // Handle the response from the server
+         if (data.modified){
+           window.location.reload();
+         }
+     })
+     .catch(error => {
+         // Handle any errors that occur during the request
+         console.error(error);
+     });
+ }
+ 
+ </script>
+
+
 <script>
   function getDeviceTheme() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -87,7 +224,7 @@ console.log('Device theme:', deviceTheme);
 
 {% block footer %}
 <div>
-  <div>This page is meant for the showing the time matrix algorithm</div>
+  <div>Computer Science</div>
   <div>
     <form action="" method="post" enctype="x-www-urlencoded">
       {% csrf_token %}
@@ -98,46 +235,4 @@ console.log('Device theme:', deviceTheme);
 </div>
 
 
-<script>
-/*
- var form = document.getElementById("polling-unit-form");
-  form.addEventListener("submit", function (event) {
-      event.preventDefault(); 
-      submitForm();
-  });
-  var notification = document.createElement("div");
-          notification.textContent = "Data saved successfully!";
-          notification.setAttribute("id", "notification");;
-          document.body.appendChild(notification);
-      
-  function submitForm() {
-    var form = document.getElementById("polling-unit-form");
-    var formData = new FormData(form);
-    fetch(form.action, {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": "{{ csrf_token }}",
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the server
-          let notification = document.getElementById('notification');
-            notification.style.display = "block";
-          setTimeout(function() {
-            notification.style.display = "none";
-          }, 5000);
-          let form = document.getElementById('polling-unit-form');
-          form.reset();
-
-    })
-    .catch(error => {
-        // Handle any errors that occur during the request
-        console.error(error);
-    });
-}
-
-*/
-</script>
 {% endblock footer %}

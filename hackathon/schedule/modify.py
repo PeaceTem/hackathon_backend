@@ -24,9 +24,11 @@ class Modify:
         # This method should force a course to be scheduled
         return True
 
-
-
-    def modify_venue(self, column: Column, *args, **kwargs):
+    """
+    Change the venue to another with higher capacity
+    """
+    @classmethod
+    def modify_venue(cls, column: Column, *args, **kwargs):
         for venue in Venue.objects.filter(capacity__gt=column.venue.capacity):
             done = Algorithm(column)._crossover()
 
@@ -37,7 +39,12 @@ class Modify:
 
 
 
-    def assign_venue(self,
+    """
+    Choose a venue to take the course
+    """
+
+    @classmethod
+    def assign_venue(cls,
                     column: Column,
                     venue: Venue, *args, **kwargs):
         _venue = column.venue
@@ -57,8 +64,12 @@ class Modify:
         return False
 
 
-    
-    def course_reallocation(self,
+    """
+    The re allocate a course
+    """
+
+    @classmethod
+    def course_reallocation(cls,
                             column: Column,
                             time_slot: TimeSlot,
                             row: Row, *args, **kwargs):
@@ -80,33 +91,37 @@ class Modify:
 
 
 
-    def course_cell_exclusion(self,
+    @classmethod
+    def course_cell_exclusion(cls,
                             column: Column,
                             cell: Cell, *args, **kwargs):
+        
         if cell.column != column:
             return False
         
         if cell.value == 1:
             cell.value = -1
             cell.save()
+
             # call the algorithm that forces a course to be scheduled
             done = Algorithm(column)._crossover()
 
+            # change the venue if the current venue is unavailable throughout the exam period
             if not done:
-                self.modify_venue(column)
+                Modify.modify_venue(column)
                 # the cell value should change for the new venue
 
             """
             Check the restrictions for the department and level
             to know whether to assign -1 to the cell value or not
             """
-            cell.value = 1 if True else -1
-            cell.save()
+            # cell.value = -1
+            # cell.save()
 
 
         elif cell.value == 0:
             cell.value = -1
-            cell.value()
+            cell.save()
 
         elif cell.value -1:
             pass
@@ -117,8 +132,8 @@ class Modify:
         return True
     
 
-    
-    def level_cells_exclusion(self,
+    @classmethod
+    def level_cells_exclusion(cls,
                             level: int,
                             time_slot: TimeSlot,
                             row: Row,
@@ -131,28 +146,26 @@ class Modify:
         
         for column in columns:
             cell = column.cells.get(row=row)
-            self.course_cell_exclusion(column, cell)
+            Modify.course_cell_exclusion(column, cell)
 
 
         return True
     
 
-    
-    def department_cells_exclusion(self,
+    @classmethod
+    def department_cells_exclusion(cls,
                                    department: Department,
                                    time_slot: TimeSlot,
                                    row: Row, *args, **kwargs):
         
-        
-        courses = CourseCode.objects.filter(department=department)
-
+        # use all for now
+        # courses = CourseCode.objects.filter(department=department)
+        # print(courses)
+        courses = CourseCode.objects.all()
         columns = Column.objects.filter(course_code__in=courses,
                                         time_slot=time_slot)
-        
         for column in columns:
             cell = column.cells.get(row=row)
-            self.course_cell_exclusion(column, cell)
-
-
+            Modify.course_cell_exclusion(column, cell)
 
         return True

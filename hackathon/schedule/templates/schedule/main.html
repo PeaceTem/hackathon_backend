@@ -9,7 +9,8 @@
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box
+    box-sizing:border-box;
+    transition: .3s all ease-in-out;
 }
 
 body,html{
@@ -111,14 +112,44 @@ iframe{
 }
 
 
+#form-container{    
+    margin: 4px auto;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-contents: flex-start;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 7px;
+    font-family: Sono-Regular;
+    color: #36304a;
+    font-weight: bold;
+}
+
+#exclusion-form{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-contents: center;
+    padding: 10px;
+    margin: 15px auto;
+    border-radius: 4px;
+    flex-basis: 7px;
+    cursor: pointer;
+}
+
+#exclusion-form >*{
+    margin: 0 5px;
+}
+
+
 .limiter{
     width:100%;
     margin:0 auto;
 }
 
-.container-table100{
+.container-table100, .container-form{
     width:100%;
-    min-height:100vh;
     background:#c850c0;
     background:-webkit-linear-gradient(45deg,#4158d0,#c850c0);
     background:-o-linear-gradient(45deg,#4158d0,#c850c0);
@@ -134,7 +165,9 @@ iframe{
     flex-wrap:wrap;
     padding:10px 10px;
 }
-
+.container-table100{
+    min-height:100vh;
+}
 .wrap-table100{
     width: 98%;
     overflow-x: scroll;
@@ -266,95 +299,41 @@ th, td{
 
 
 @media screen and (max-width:992px){
-    table{
-        display:block
-    }
     
-    
-    table>*,table tr,table td,table th{
-        display:block
-    }
-    
-    
-    table thead{
-        display:none
-    }
-    
-    table tbody tr{
-        height:auto;
-        padding:37px 0
-    }
-    
-    
-    table tbody tr td{
-        padding-left:40%!important;
-        margin-bottom:24px
-    }
-    
-    
-    table tbody tr td:last-child{
-        margin-bottom:0
-    }
-    
-    table tbody tr td:before{
-        font-family:Sono-Regular;
-        font-size:14px;
-        color:#999;
-        line-height:1.2;
-        font-weight:unset;
-        position:absolute;
-        width:40%;
-        left:30px;
-        top:0
-    }
-/*     
-    table tbody tr td:nth-child(1):before{
-        content:"Date"
-    }
-    
-    table tbody tr td:nth-child(2):before{
-        content:"Order ID"
-    }
-    
-    table tbody tr td:nth-child(3):before{
-        content:"Name"
-    }
-    
-    table tbody tr td:nth-child(4):before{
-        content:"Price"
-    }
-    
-    table tbody tr td:nth-child(5):before{
-        content:"Quantity"
-    }
-    
-    table tbody tr td:nth-child(6):before{
-        content:"Total"
-    }
-    
-     */
-
-/*      
-    .column4,.column5,.column6{
-        text-align:left
-    }
-    
-    .column4,.column5,.column6,.column1,.column2,.column3{
-        width:100%
-    }
-     */
-    tbody tr{
-        font-size:14px
-    }
 }
 
 
-
 @media(max-width:576px){
-    .container-table100{
-        padding-left:15px;
-        padding-right:15px
+    * {
+        font-size: 11px;
     }
+    table thead tr{
+        height:50px;
+    }
+    
+    table thead tr{
+        font-size: 11px;
+    }
+    #exclusion-form{    
+        flex-direction: column;
+    }
+
+    #exclusion-form > * {
+        margin: 4px auto;
+    }
+
+    #footer{
+        position: static;
+    }
+
+    #footer div{
+        flex-direction: column;
+    }
+
+    #footer div > *{
+        margin: 4px auto;
+    }
+
 }
 
 

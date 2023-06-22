@@ -1,7 +1,7 @@
 from .algorithm import Algorithm
 from .models import Column
-import random
 
+from .modify import Modify
 
 class TimeTable():
     
@@ -11,20 +11,21 @@ class TimeTable():
     """
 
     def __init__(self, columns):
+        # the columns are shuffled
         self.columns = columns.order_by('?')
         self.residue = []
+        self.final_residue = []
 
 
 
     def __str__(self):
+        # Use this format -> <TimeTable: Computer Science>
         return f"<TimeTable: ...>"
 
 
     def process(self):
         print(f"There are {self.columns.count()} courses.")
 
-        #shuffling the columns before scheduling
-        # random.shuffle(self.columns)
 
         for column in self.columns:
             print(f"Scheduling for {column} has started!")
@@ -38,6 +39,22 @@ class TimeTable():
 
         print("This are the residue of the algorithm:", self.residue)
         return True
+
+
+
+
+    def reschedule_residue(self):
+        """
+        Change the venue for each course to another venue with higher capacity until the 
+        course is scheduled
+        """
+
+        for r in self.residue:
+            scheduled = Modify.modify_venue(r)
+
+            if not scheduled:
+                self.final_residue.append(r)
+
 
 
 """

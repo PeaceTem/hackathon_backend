@@ -144,7 +144,6 @@ class CreateSuperUser(FormView):
 class TimeMatrix(LoginRequiredMixin, TemplateView):
     template_name = 'schedule/time_matrix.html'
 
-
     def post(self, request, *args, **kwargs):
         TimeTable(Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').all()).process()
         return redirect('schedule-courses')

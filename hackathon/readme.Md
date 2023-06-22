@@ -61,7 +61,7 @@ This process is repeated for all the column in the *time-matrix* table.
 
 # Portable softcopy
 
-The timetable cannot be downloaded in form of pdf
+The timetable can be downloaded in form of pdf
 
 # Prototype
 

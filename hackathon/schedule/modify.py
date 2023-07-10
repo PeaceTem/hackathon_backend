@@ -10,10 +10,10 @@ Do the same for levels
 class Modify:
     
     """
-    This is the interface for modifying a course,
+    This is the class responsible for modifying a course,
     a level's time slot,
     a department's time slot
-
+    a course's time slot and venue
     """
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Modify:
         return True
 
     """
-    Change the venue to another with higher capacity
+    Change the venue to another one with higher capacity
     """
     @classmethod
     def modify_venue(cls, column: Column, *args, **kwargs):
@@ -159,9 +159,9 @@ class Modify:
                                    row: Row, *args, **kwargs):
         
         # use all for now
-        # courses = CourseCode.objects.filter(department=department)
+        courses = CourseCode.objects.filter(department=department)
         # print(courses)
-        courses = CourseCode.objects.all()
+        # courses = CourseCode.objects.all()
         columns = Column.objects.filter(course_code__in=courses,
                                         time_slot=time_slot)
         for column in columns:
@@ -169,3 +169,11 @@ class Modify:
             Modify.course_cell_exclusion(column, cell)
 
         return True
+
+
+
+def restart(department: Department):
+    courses = CourseCode.objects.filter(department=department)
+    columns = Column.objects.filter(course_code__in=courses)
+    for column in columns:
+        for cell in column.cells.all():

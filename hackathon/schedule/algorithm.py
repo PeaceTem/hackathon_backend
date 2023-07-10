@@ -15,10 +15,7 @@ import random,math
 
 class Algorithm:
     """
-    Add the all the time_slots to a class variable cls.time_slots
-    and use random on it instead of adding a delimiter to the class
-    
-    
+    This algorithm class responsible for scheduling a course
     """
 
     time_slots = TimeSlot.objects.all()
@@ -35,7 +32,7 @@ class Algorithm:
     def __str__(self):
         return f"<Algorithm: {self.column}>"
 
-
+    # "The time slots and the venue can be changed here"
     def mutation(self, *args, **kwargs):
         time_slot = None
         venue = None
@@ -62,7 +59,8 @@ class Algorithm:
 
         return True
 
-
+    # the cell that contains 1 as its value will be selected in a column of cells
+    # it's the column(course) that is being scheduled
     def selection(self, *args, **kwargs):
         column = Column.objects.prefetch_related('cells').get(id=self.column.id)
 
@@ -73,6 +71,8 @@ class Algorithm:
         return None
 
 
+    # the cell that contains 1 as its value will be selected in a column of cells
+    # it's not the column(course) that is being scheduled
     def selection_service(self, column: Column, *args, **kwargs):
         column = Column.objects.prefetch_related('cells').get(id=column.id)
 

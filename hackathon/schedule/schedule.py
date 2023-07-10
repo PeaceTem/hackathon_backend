@@ -3,6 +3,8 @@ from .models import Column
 
 from .modify import Modify
 
+
+
 class TimeTable():
     
     """
@@ -22,7 +24,7 @@ class TimeTable():
         # Use this format -> <TimeTable: Computer Science>
         return f"<TimeTable: ...>"
 
-
+    # this is the method that does the scheduling 
     def process(self):
         print(f"There are {self.columns.count()} courses.")
 
@@ -42,7 +44,7 @@ class TimeTable():
 
 
 
-
+    # the leftover courses will be rescheduled here
     def reschedule_residue(self):
         """
         Change the venue for each course to another venue with higher capacity until the 

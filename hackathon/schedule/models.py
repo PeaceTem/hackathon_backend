@@ -5,6 +5,9 @@ from department.models import Department
 
 
 
+# Add levels later
+
+
 class Supervisor(models.Model):
     name = models.CharField(max_length=100)
     # course = models.OneToOneField(CourseCode, null=True, blank=True, on_delete=models.CASCADE, related_name='supervisor')
@@ -26,6 +29,7 @@ class CourseCode(models.Model):
         (500, 500),
 
     )
+
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10)
     student_population = models.PositiveSmallIntegerField(default=1)
@@ -41,7 +45,7 @@ class Venue(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.PositiveSmallIntegerField(default=1)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="venues")
-
+    # change this relationship
 
     def __str__(self):
         return f"{self.name}"

@@ -8,3 +8,12 @@ class Faculty(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    class Meta:
+        verbose_name_plural = 'Faculties'
+        ordering = ["name"]
+
+
+
+
+

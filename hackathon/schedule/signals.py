@@ -6,6 +6,11 @@ from .models import *
 
 
 
+
+
+The cells that will be created should be based on the department
+
+
 @receiver(post_save, sender=Row)
 def create_cells_by_column(sender, instance, created, *args, **kwargs):
     if created:

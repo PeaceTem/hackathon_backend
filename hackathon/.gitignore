@@ -1,6 +1,6 @@
 
 venv/
-/hackathon/# your own files
+__pycache__/
 *.sock
 uwsgi_myproj.ini
 uwsgi_params/
@@ -12,7 +12,7 @@ media
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*__pycache__/
 *.py[cod]
 *$py.class
 

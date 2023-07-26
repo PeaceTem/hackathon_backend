@@ -177,3 +177,5 @@ def restart(department: Department):
     columns = Column.objects.filter(course_code__in=courses)
     for column in columns:
         for cell in column.cells.all():
+            cell.value = 0
+            cell.save(updated_fields=["value"])

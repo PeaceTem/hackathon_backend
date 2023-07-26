@@ -18,8 +18,6 @@ class Supervisor(models.Model):
         return f"{self.name}"
 
 
-
-
 class CourseCode(models.Model):
     LEVELS = (
         (100, 100),
@@ -49,7 +47,6 @@ class Venue(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
 
 
 
@@ -104,14 +101,6 @@ class TimeSlot(models.Model):
 
 
 
-
-
-
-
-
-
-
-
 class Day(models.Model):
     DAYS = (
         ("Monday", "Monday"),
@@ -135,8 +124,6 @@ class Day(models.Model):
 
     def __str__(self):
         return f"week {self.week}, {self.day}"
-
-
 
 
 
@@ -186,7 +173,11 @@ class Column(models.Model):
 
 
     def create(self, **obj):
-        venues = Venue.objects.order_by("capacity")
+        """
+        The venues should be selected their department is the same with course's
+        """
+
+        venues = Venue.objects.filter(department=obj['department']).order_by("capacity")
         for v in venues:
             if obj['course_code'].student_population <= v.capacity:
                 obj['venue'] = v
@@ -195,14 +186,14 @@ class Column(models.Model):
         return super().create(self, **obj)
 
 
-    def save(self, *args, **kwargs):
-        venues = Venue.objects.order_by("capacity")
-        for v in venues:
-            if self.course_code.student_population <= v.capacity:
-                self.venue = v
-                break
+    # def save(self, *args, **kwargs):
+    #     venues = Venue.objects.order_by("capacity")
+    #     for v in venues:
+    #         if self.course_code.student_population <= v.capacity:
+    #             self.venue = v
+    #             break
 
-        return super().save(*args, **kwargs)
+    #     return super().save(*args, **kwargs)
         
 
 """
@@ -211,6 +202,7 @@ Add constraints to the model
 two rows cannot have the same date
 
 """
+
 class Row(models.Model):
     day = models.OneToOneField(Day, on_delete=models.CASCADE, related_name="row")
 

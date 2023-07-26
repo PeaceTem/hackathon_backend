@@ -1,5 +1,5 @@
 from .algorithm import Algorithm
-from .models import Column
+from .models import Column, CourseCode
 
 from .modify import Modify
 
@@ -11,12 +11,18 @@ class TimeTable():
     This is the interface for scheduling courses
     The Algorithm class with not be interacted with in the views.py 
     """
-
-    def __init__(self, columns):
-        # the columns are shuffled
-        self.columns = columns.order_by('?')
+    def __init__(self, department):
+        self.department = department
+        courses = CourseCode.objects.filter(department=department)
+        self.columns = Column.objects.prefetch_related('cells').select_related('course_code', 'venue', 'time_slot').filter(course_code__in=courses).order_by("?")
         self.residue = []
         self.final_residue = []
+
+    # def __init__(self, columns):
+    #     # the columns are shuffled
+    #     self.columns = columns.order_by('?')
+    #     self.residue = []
+    #     self.final_residue = []
 
 
 

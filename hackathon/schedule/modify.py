@@ -65,7 +65,7 @@ class Modify:
 
 
     """
-    The re allocate a course
+    re-allocate a course
     """
 
     @classmethod
@@ -91,6 +91,10 @@ class Modify:
 
 
 
+
+    """
+    This method makes a particular cell unavailable
+    """
     @classmethod
     def course_cell_exclusion(cls,
                             column: Column,
@@ -123,7 +127,7 @@ class Modify:
             cell.value = -1
             cell.save()
 
-        elif cell.value -1:
+        elif cell.value == -1:
             pass
 
         else:

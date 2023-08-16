@@ -45,13 +45,13 @@ A *cell* is chosen randomly from the list of available cells in a column
 
 If the venue of the column is not available at the time slot of the day of the cell chosen, another cell is chosen randomly until the condition for scheduling is met, or the column runs out of cells.
 
-### Changing Of Time Slot
+### Changing The Time Slot
 
 IF the column runs out of cells, another time slot is chosen randomly and assign to the column for another round of scheduling.
 
 This process is repeated until the algorithm runs out of time slots to choose from.
 
-### Changing Of Venue
+### Changing The Venue
 
 If the course has not yet been scheduled, the algorithm changes the venue of the column to another one with higher capacity until the algorithm runs out of venues to choose from.
 
@@ -70,7 +70,5 @@ The timetable can be downloaded in form of pdf
 - [CLT TimeTable](http://ecclesiastes.pythonanywhere.com/venue/CLT)
 - [TimeTable PDF](http://ecclesiastes.pythonanywhere.com/pdf)
 - [Time-Matrix Table](http://ecclesiastes.pythonanywhere.com/matrix)
-
-
 # Thanks!
 

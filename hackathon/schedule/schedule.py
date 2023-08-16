@@ -5,7 +5,7 @@ from .modify import Modify
 
 
 
-class TimeTable():
+class TimeTable:
     
     """
     This is the interface for scheduling courses
@@ -31,7 +31,9 @@ class TimeTable():
         return f"<TimeTable: ...>"
 
     # this is the method that does the scheduling 
+    # It schedules the courses one after the other
     def process(self):
+        # use this columns instead of getting list of departmental courses again.
         print(f"There are {self.columns.count()} courses.")
 
 
@@ -69,23 +71,6 @@ class TimeTable():
 Add an health-check method to check if the timetable is conflict-free
 
 """
-
-
-
-
-
-
-"""
-Revise OOP in python:
-Static Method
-class method
-setter and getter
-polymorphism
-encapsulation
-abstraction
-
-"""
-
 
 def test():
     print('Testing has started!')

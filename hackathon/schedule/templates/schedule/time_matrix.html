@@ -71,7 +71,7 @@ Time Matrix
   <div class="container-form">
   <div class="wrap-form">
 <div id="form-container">
-<form id="exclusion-form" method="post" action="department-exclusion">
+<form id="exclusion-form" method="post" action="exclusion">
   {% csrf_token %}
 
   <div class="form-input">
@@ -128,14 +128,14 @@ Time Matrix
  categoryField.addEventListener("change", ()=>{
   generatedField.innerHTML = '';
   var categoryFieldValue = categoryField.value
- 
+    alert(form.action)
    if (categoryFieldValue != "" && categoryFieldValue !== 'all'){
-       fetch(form.action + "?category=" + categoryFieldValue, {
+       fetch("exclusion/?category=" + categoryFieldValue, {
            method: "GET",
        })
        .then(response => response.json())
        .then(data => {
-           // Handle the response from the server
+             // Handle the response from the server
            console.log(data);
            let selectTag = `
            <label for="${categoryFieldValue}">${categoryFieldValue}</label>
@@ -180,7 +180,8 @@ Time Matrix
        
    function submitForm() {
      var formData = new FormData(form);
-     fetch(form.action, {
+     alert(form.action);
+     fetch("exclusion/", {
          method: "POST",
          headers: {
              "X-CSRFToken": "{{ csrf_token }}",

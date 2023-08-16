@@ -43,14 +43,55 @@ class Venue(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.PositiveSmallIntegerField(default=1)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True, related_name="venues")
-    # change this relationship
 
     def __str__(self):
         return f"{self.name}"
 
 
+# Add class Timeslot
+class ClassTimeSlot(models.Model):
+    HOURS = (
+        zip(range(0,24), range(0,24))
+    )
 
-#format this later using the techniques learnt in csc231 :2d
+
+    HOURS2 = (
+        zip(range(0,24), range(0,24))
+    )
+
+
+
+    start_hour = models.PositiveSmallIntegerField(choices=HOURS, default=0)
+    end_hour = models.PositiveSmallIntegerField(choices=HOURS2, default=0)
+
+
+
+    @property
+    def start_time(self):
+        return f"{self.start_hour:02d}:00"
+
+    @property
+    def end_time(self):
+        return f"{self.end_hour:02d}:00"
+
+    
+    def __str__(self):
+        return f"{self.start_time} - {self.end_time}"
+
+    
+    # getting the next timeslot. The value represent the number of steps
+    def __add__(self, value=1):
+        if value == 0:
+            return self
+        
+        
+        if self == TimeSlot.objects.last():
+            return TimeSlot.objects.first() + (value - 1)
+            
+        else:
+            return TimeSlot.objects.filter(id__gt=self.id).order_by('id').first() + (value - 1)
+
+  
 class TimeSlot(models.Model):
     HOURS = (
         zip(range(0,24), range(0,24))
@@ -87,7 +128,7 @@ class TimeSlot(models.Model):
         return f"{self.start_time} - {self.end_time}"
 
     
-    # recursive algorithm combined with backtracking algorithm
+    # getting the next timeslot. The value represent the number of steps
     def __add__(self, value=1):
         if value == 0:
             return self

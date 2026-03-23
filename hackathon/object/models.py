@@ -24,12 +24,12 @@ class Object(models.Model):
 
     name = models.CharField(max_length=200, )
     description = models.TextField(max_length=1000, null=True, blank=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='objects')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='objects_parent')
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     is_entity = models.BooleanField(default=False)
     is_key = models.BooleanField(default=False)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='object')
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='object_creator')
 
     """
     University of Ibadan is an instance of the root object

@@ -124,7 +124,7 @@ class CreateSuperUser(FormView):
         username = self.request.POST.get('username')
         password = self.request.POST.get('password')
         email = self.request.POST.get('email')
-
+        # check for password strength and uniqueness of username and email
         User.objects.create_superuser(username=username, password=password, email=email)
         print("It works")
         user = authenticate(self.request, username=username, password=password)

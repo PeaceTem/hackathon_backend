@@ -32,4 +32,4 @@ uritools==6.0.1
 urllib3==2.6.3
 webencodings==0.5.1
 cairocffi==1.7.1
-xhtml2pdf==0.2.17
+xhtml2pdf==0.2.5

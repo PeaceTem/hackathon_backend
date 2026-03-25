@@ -13,7 +13,7 @@ python3 -m venv venv
 pip install --upgrade pip
 
 # install dependencies from requirements.txt in the project root
-pip install -r requirements.txt
-
+# pip install -r requirements.txt
+pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 # collect static files
 python manage.py collectstatic --noinput

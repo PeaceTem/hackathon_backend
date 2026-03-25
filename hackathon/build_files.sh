@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # move into the hackathon subfolder
-cd hackathon
+# cd hackathon
 
 # create virtual environment in the project root
 python3 -m venv venv
@@ -13,7 +13,7 @@ python3 -m venv venv
 pip install --upgrade pip
 
 # install dependencies from requirements.txt in the project root
-pip install -r requirements.txt
+pip install -r hackathon/requirements.txt
 
 # collect static files
-python manage.py collectstatic --noinput
+python hackathon/manage.py collectstatic --noinput
